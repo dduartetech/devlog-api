@@ -1,6 +1,5 @@
 package com.diegoduarte.devlog_api.business.dtos.response;
 
-import jakarta.persistence.Column;
 import lombok.*;
 
 @Getter
