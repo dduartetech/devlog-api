@@ -27,8 +27,8 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/usuario").permitAll() // cadastro
-                        .requestMatchers(HttpMethod.POST, "/usuario/login").permitAll() // login
+                        .requestMatchers(HttpMethod.POST, "/user").permitAll() // cadastro
+                        .requestMatchers(HttpMethod.POST, "/user/login").permitAll() // login
                         .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll() // swagger
                         .anyRequest().authenticated()
                 )

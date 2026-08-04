@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
@@ -30,6 +32,10 @@ public class UserController {
         return ResponseEntity.ok(LoginDTOResponse.builder().token(token).build());
     }
 
+    @GetMapping
+    public ResponseEntity<List<UserDTOResponse>> listarUsers() {
+        return ResponseEntity.ok(userService.listarUsers());
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDTOResponse> buscarPorId (@PathVariable("id") Long id) {

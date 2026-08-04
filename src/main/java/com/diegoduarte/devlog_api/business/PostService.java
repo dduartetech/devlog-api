@@ -51,8 +51,8 @@ public class PostService {
         PostEntity entity = postRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Post não encontrado."));
 
-        entity.setTitulo(dto.getTitulo());
-        entity.setConteudo(dto.getConteudo());
+        if (dto.getTitulo() != null) entity.setTitulo(dto.getTitulo());
+        if (dto.getConteudo() != null) entity.setConteudo(dto.getConteudo());
 
         return postMapper.toDTO(postRepository.save(entity));
     }

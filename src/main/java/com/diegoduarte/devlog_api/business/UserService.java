@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -23,6 +25,7 @@ public class UserService {
     public UserDTOResponse cadastraUser (UserDTORequest dto) {
         dto.setSenha(passwordEncoder.encode(dto.getSenha()));
         UserEntity user = userMapper.toEntity(dto);
+        user.setAtivo(true);
         return userMapper.toDTO(userRepository.save(user));
     }
 
@@ -37,6 +40,13 @@ public class UserService {
         return jwtUtil.generateToken(email);
     }
 
+    public List<UserDTOResponse> listarUsers() {
+        return userRepository.findAll()
+                .stream()
+                .map(userMapper::toDTO)
+                .toList();
+    }
+
     public UserDTOResponse buscarPorId (Long id) {
         UserEntity entity = userRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("User não encontrado."));
@@ -44,13 +54,13 @@ public class UserService {
         return userMapper.toDTO(entity);
     }
 
-    public UserDTOResponse atualizarPorId (Long id, UserDTORequest dto) {
+    public UserDTOResponse atualizarPorId(Long id, UserDTORequest dto) {
         UserEntity entity = userRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("User não encontrado."));
 
-        entity.setNome(dto.getNome());
-        entity.setEmail(dto.getEmail());
-        entity.setSenha(passwordEncoder.encode(dto.getSenha()));
+        if (dto.getNome() != null) entity.setNome(dto.getNome());
+        if (dto.getEmail() != null) entity.setEmail(dto.getEmail());
+        if (dto.getSenha() != null) entity.setSenha(passwordEncoder.encode(dto.getSenha()));
 
         return userMapper.toDTO(userRepository.save(entity));
     }
