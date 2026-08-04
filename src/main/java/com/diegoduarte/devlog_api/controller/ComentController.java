@@ -27,7 +27,7 @@ public class ComentController {
         return ResponseEntity.ok(comentService.criarComent(dto, principal.getName(), dto.getPostId()));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/post/{id}")
     public ResponseEntity<List<ComentDTOResponse>> listarPorPost(@PathVariable("id") Long id) {
         return ResponseEntity.ok(comentService.listarPorPost(id));
     }

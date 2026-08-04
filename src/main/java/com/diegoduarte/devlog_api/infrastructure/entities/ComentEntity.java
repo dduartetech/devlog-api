@@ -1,5 +1,6 @@
 package com.diegoduarte.devlog_api.infrastructure.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class ComentEntity {
     private String conteudo;
 
     @Column(name = "data_criacao")
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime dataCriacao;
 
     @ManyToOne
