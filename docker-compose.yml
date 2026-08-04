@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: db_devlog
+    environment:
+      POSTGRES_DB: db_devlog
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  devlog-api:
+    build: .
+    container_name: devlog-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/db_devlog
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASLAVE_PASSWORD: 1234
+    ports:
+      - "8081:8081"
